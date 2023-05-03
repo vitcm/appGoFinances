@@ -2,13 +2,18 @@ import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 
+interface TransactionTypeProps {
+  type: "positive" | "negative";
+}
+
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.color.shape};
   width: ${RFValue(300)}px;
   border-radius: 7px;
   padding: 19px 23px;
-  padding-bottom: ${RFValue(42)}px;
+  //padding-bottom: ${RFValue(42)}px;
   margin-right: 16px;
+  margin-bottom: 16px;
 `;
 
 export const Title = styled.Text`
@@ -17,10 +22,11 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.color.text_dark};
 `;
 
-export const Amount = styled.Text`
+export const Amount = styled.Text<TransactionTypeProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(20)}px;
-  color: ${({ theme }) => theme.color.text_dark};
+  color: ${({ theme, type }) =>
+    type === "positive" ? theme.color.sucess : theme.color.attention};
 `;
 
 export const Footer = styled.View`
