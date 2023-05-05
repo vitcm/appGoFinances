@@ -11,6 +11,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { Register } from "./src/screens/Register";
 import theme from "./src/global/styles/theme";
 
+import { NavigationContainer } from "@react-navigation/native";
+import { AppRoutes } from "./src/routes/app.routes";
+
 export default function App() {
   SplashScreen.preventAutoHideAsync();
   const [fontsLoaded] = useFonts({
@@ -27,7 +30,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Register />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
