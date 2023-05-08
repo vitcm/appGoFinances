@@ -14,6 +14,7 @@ import {
   Transactions,
   Title,
   TransactionsList,
+  // LogoutButton
 } from "./styles";
 import { HighlightCard } from "../../components/HighlightCard";
 import {
@@ -69,7 +70,9 @@ export function Dashboard() {
           </UserInfo>
         </UserWrapper>
 
+        {/* <LogoutButton onPress={() => {}}> */}
         <Icon name="power" />
+        {/* </LogoutButton> */}
       </Header>
       <HighlightCards>
         <HighlightCard

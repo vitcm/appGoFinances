@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 // o TouchableWithoutFeedback
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
+import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 // REVER AULA DE USEFORM!!!
 import { Input } from "../../components/Forms/Input";
@@ -34,15 +37,18 @@ const schema = Yup.object().shape({
 });
 
 export function Register() {
+  const dataKey = "@gofinancevit:transactions";
   const [category, setCategory] = useState({
     key: "category",
     name: "Categoria",
   });
+  const navigation = useNavigation();
   const [transactionType, setTransactionType] = useState("");
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -60,21 +66,61 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: FormData) {
+  const handleTeste = () => {
+    handleTransactionsTypesSelect("up");
+  };
+
+  async function handleRegister(form: FormData) {
     if (!transactionType)
       return Alert.alert("ATENÇÃO! Selecione o tipo da transação");
 
     if (category.key === "category")
       return Alert.alert("ATENÇÃO! Selecione a categoria");
 
-    const data = {
+    const newTransaction = {
+      id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
       transactionType,
       category: category.key,
+      date: new Date(),
     };
-    console.log(data);
+
+    try {
+      const data = await AsyncStorage.getItem(dataKey);
+      const currentData = data ? JSON.parse(data) : [];
+
+      //const dataFormatted = Array.isArray(currentData) ? [...currentData, newTransaction]: [newTransaction];
+      const dataFormatted = [...currentData, newTransaction];
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+
+      reset();
+      setTransactionType("");
+      setCategory({
+        key: "category",
+        name: "Categoria",
+      });
+
+      navigation.navigate("Listagem");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível salvar.");
+    }
   }
+
+  // useEffect(() => {
+  //   async function loadData() {
+  //     const data = await AsyncStorage.getItem(dataKey);
+  //     console.log(JSON.parse(data!)); // a exclamação do data! é pra dizer pro typescript que vai sempre ter um valor, já que data pode ser nulo também.
+  //   }
+  //   loadData();
+
+  //   // async function removeAll() {
+  //   //   await AsyncStorage.removeItem(dataKey);
+  //   // }
+  //   // removeAll();
+  // }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -104,7 +150,7 @@ export function Register() {
               <TransactionTypeButton
                 type="up"
                 title="Income"
-                onPress={() => handleTransactionsTypesSelect("up")}
+                onPress={handleTeste}
                 isActive={transactionType === "up"}
               />
               <TransactionTypeButton
