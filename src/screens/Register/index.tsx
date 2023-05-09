@@ -54,7 +54,7 @@ export function Register() {
     resolver: yupResolver(schema),
   });
 
-  function handleTransactionsTypesSelect(type: "up" | "down") {
+  function handleTransactionsTypesSelect(type: "positive" | "negative") {
     setTransactionType(type);
   }
 
@@ -65,10 +65,6 @@ export function Register() {
   function handleCloseSelectCategory() {
     setCategoryModalOpen(false);
   }
-
-  const handleTeste = () => {
-    handleTransactionsTypesSelect("up");
-  };
 
   async function handleRegister(form: FormData) {
     if (!transactionType)
@@ -81,7 +77,7 @@ export function Register() {
       id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
       date: new Date(),
     };
@@ -149,15 +145,15 @@ export function Register() {
             <TransactionsTypes>
               <TransactionTypeButton
                 type="up"
-                title="Income"
-                onPress={handleTeste}
-                isActive={transactionType === "up"}
+                title="Entrada"
+                onPress={() => handleTransactionsTypesSelect("positive")}
+                isActive={transactionType === "positive"}
               />
               <TransactionTypeButton
                 type="down"
-                title="Outcome"
-                onPress={() => handleTransactionsTypesSelect("down")}
-                isActive={transactionType === "down"}
+                title="Saída"
+                onPress={() => handleTransactionsTypesSelect("negative")}
+                isActive={transactionType === "negative"}
               />
             </TransactionsTypes>
             <CategorySelectButton

@@ -9,36 +9,35 @@ import {
   Type,
   Footer,
 } from "./style";
-
-interface Category {
-  name: string;
-  icon: string;
-}
+import { categories } from "../../utils/categories";
 
 export interface TransactionCardProps {
-    type: "positive" | "negative";
-    title: string;
-    amount: string;
-    category: Category;
-    date: string;
+  type: "positive" | "negative";
+  name: string;
+  amount: string;
+  category: string;
+  date: string;
 }
 
-interface Props{
+interface Props {
   data: TransactionCardProps;
 }
 
 export function TransactionCard({ data }: Props) {
+  const category = categories.filter(
+    item => item.key === data.category
+  )[0]; //pega a primeira posição
   return (
     <Container>
-      <Title>{data.title}</Title>
+      <Title>{data.name}</Title>
       <Amount type={data.type}>
         {data.type === "negative" && "- "}
         {data.amount}
       </Amount>
       <Footer>
         <Categoria>
-          <Icon name={data.category.icon} />
-          <Type>{data.category.name}</Type>
+          <Icon name={category.icon} />
+          <Type>{category.name}</Type>
         </Categoria>
         <Data>{data.date}</Data>
       </Footer>
