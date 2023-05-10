@@ -7,7 +7,7 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import * as SplashScreen from "expo-splash-screen";
-
+import "react-native-gesture-handler";
 import { Register } from "./src/screens/Register";
 import theme from "./src/global/styles/theme";
 
