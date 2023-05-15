@@ -40,14 +40,13 @@ function AuthProvider({ children }: AuthProviderProps) {
         "163729751319-2ou20kv3jatm1mb8tfcqgnnerhl3klqd.apps.googleusercontent.com";
       const REDIRECT_URI = "https://auth.expo.io/@vitoryacm/teste";
       const RESPONSE_TYPE = "token";
-      const SCOPE = encodeURI("profile email");
+      const SCOPE = encodeURIComponent("profile email");
 
       const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
       const { type, params } = (await AuthSession.startAsync({
         authUrl,
       })) as AuthorizationResponse;
-      
 
       if (type === "success") {
         const response = await fetch(
