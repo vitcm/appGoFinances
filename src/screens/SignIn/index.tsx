@@ -10,7 +10,7 @@ import {
   Logo,
   FooterWrapper,
 } from "./styles";
-import { ActivityIndicator, Alert } from "react-native";
+import { ActivityIndicator, Alert, Platform } from "react-native";
 import AppleSvg from "../../assets/Apple.svg";
 import GoogleSvg from "../../assets/Google.svg";
 import LogoSvg from "../../assets/Finance.svg";
@@ -33,7 +33,6 @@ export function SignIn() {
     } catch (error) {
       console.log(error);
       Alert.alert("Erro! Não foi possível conectar a conta google.");
-    } finally {
       setIsLoading(false);
     }
   }
@@ -46,7 +45,6 @@ export function SignIn() {
     } catch (error) {
       console.log(error);
       Alert.alert("Erro! Não foi possível conectar a conta apple.");
-    } finally {
       setIsLoading(false);
     }
   }
@@ -74,11 +72,12 @@ export function SignIn() {
             svg={GoogleSvg}
             onPress={handleSignInWithGoogle}
           />
-          <SignInButton
+          {Platform.OS === 'ios'&&
+            <SignInButton
             title="Entrar com Apple"
             svg={AppleSvg}
             onPress={handleSignInWithApple}
-          />
+          />}
         </FooterWrapper>
 
         {isLoading && (
