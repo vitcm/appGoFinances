@@ -4,6 +4,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import { DataListProps } from ".";
 import { BorderlessButton } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 
 export const Container = styled.View`
   flex: 1; /*ocupa toda a tela*/
@@ -62,7 +63,9 @@ export const Icon = styled(Feather)`
   margin-top: ${RFValue(55)}px;
 `;
 
-// export const LogoutButton = styled(BorderlessButton)``;
+export const LogoutButton = styled(TouchableOpacity)`
+
+`;
 
 export const HighlightCards = styled.ScrollView.attrs({
   horizontal: true,

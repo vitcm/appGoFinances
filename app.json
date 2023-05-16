@@ -2,10 +2,8 @@
   "expo": {
     "name": "teste",
     "slug": "teste",
-    "schema": "teste",
+    "scheme": "teste",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }
